@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import {
+    Button,
+    Container,
+    TextField,
+    Typography,
+    Box,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+} from "@mui/material";
+import { VIDEO_STATUS } from "../../Constants/Const";
 
 type FormElement = React.ChangeEvent<
     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -36,54 +49,62 @@ const EditVideo = ({ video }) => {
     };
 
     return (
-        <div>
-            <p>Edit</p>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        placeholder="title"
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        id="text"
-                        name="text"
-                        value={formData.text}
-                        onChange={handleChange}
-                        placeholder="text"
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        id="status"
+        <Container maxWidth="sm" sx={{ textAlign: "left" }}>
+            <Typography variant="h4" gutterBottom>
+                編集
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit}>
+                <TextField
+                    fullWidth
+                    margin="normal"
+                    label="タイトル"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                />
+                <TextField
+                    fullWidth
+                    margin="normal"
+                    label="撮影内容"
+                    name="text"
+                    multiline
+                    rows={4}
+                    value={formData.text}
+                    onChange={handleChange}
+                />
+                <FormControl component="fieldset" margin="normal">
+                    <FormLabel component="legend">ステータス</FormLabel>
+                    <RadioGroup
                         name="status"
                         value={formData.status}
                         onChange={handleChange}
-                        placeholder="status"
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        id="youtube_url"
-                        name="youtube_url"
-                        value={formData.youtube_url}
-                        onChange={handleChange}
-                        placeholder="youtube_url"
-                    />
-                </div>
-                <div>
-                    <button type="submit">変更</button>
-                </div>
-            </form>
-        </div>
+                        row
+                    >
+                        {VIDEO_STATUS.map((status) => (
+                            <FormControlLabel
+                                key={status.value}
+                                value={status.value.toString()}
+                                control={<Radio />}
+                                label={status.label}
+                            />
+                        ))}
+                    </RadioGroup>
+                </FormControl>
+                <TextField
+                    fullWidth
+                    margin="normal"
+                    label="URL"
+                    name="youtube_url"
+                    value={formData.youtube_url}
+                    onChange={handleChange}
+                />
+                <Box mt={2}>
+                    <Button type="submit" variant="contained" color="primary">
+                        変更
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
     );
 };
 

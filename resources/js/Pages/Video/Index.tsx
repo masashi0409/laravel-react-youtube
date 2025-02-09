@@ -15,7 +15,7 @@ import {
     CheckCircle,
     Cancel,
 } from "@mui/icons-material"; // アイコンをインポート
-import { VIDEO_STATUS } from "../../Constants/Const"; // VIDEO_STATUSをインポート
+import { VIDEO_STATUS } from "../../Constants/Const";
 
 const Videos = ({ videos }) => {
     return (
@@ -146,6 +146,7 @@ const Videos = ({ videos }) => {
                                         component={Link}
                                         href={`/videos/detail/${video.id}`}
                                         variant="contained"
+                                        color="secondary"
                                         startIcon={<SummarizeIcon />}
                                         sx={{ minWidth: "100px" }}
                                     >
