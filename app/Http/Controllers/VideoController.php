@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use Inertia\Inertia;
+use App\Http\Requests\VideoStoreRequest;
 use App\Http\Requests\VideoUpdateRequest;
+use App\Services\VideoService;
 
 class VideoController extends Controller
 {
+
+    protected $videoService;
+
+    // コンストラクタでVideoServiceをインジェクト
+    public function __construct(VideoService $videoService)
+    {
+        $this->videoService = $videoService;
+    }
+
     /**
      * ビデオの一覧を表示する。
      *
@@ -16,7 +27,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Video::all();
+        $videos = $this->videoService->getVideos();
 
         return Inertia::render('Video/Index', [
             'videos' => $videos
@@ -39,11 +50,11 @@ class VideoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(VideoStoreRequest $request)
     {
         $data = $request->all();
         $data['user_id'] = auth()->id();
-        Video::create($data);
+        $this->videoService->createVideo($data);
 
         return redirect()->route('video.index');
     }
